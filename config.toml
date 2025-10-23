@@ -1,0 +1,60 @@
+# Technical Assessment parameters
+
+[project]
+name = "PG DS Technical Assessment"
+
+[log_info]
+log_dir = "logs"
+level = "INFO"
+
+[sql]
+db_path = "data/sql_queries_sample_data.db"
+create_tables = "sql/create_tables.sql"
+queries = "sql/sql_queries.sql"
+print_results = "True"
+    [sql.tables]
+        delivery_persons = "delivery_persons"
+        restaurants = "restaurants"
+        deliveries = "deliveries"
+        orders = "orders"
+    [sql.general]
+        num_deliveries = 10000
+        num_delivery_persons = 30
+        num_restaurants = 100
+        num_orders = 10000
+        delivery_distance_km = {min = 0.10, max = 30.00}
+        delivery_time_min = {min = 10, max = 90}
+        delivery_rating = {min = 1, max = 5}
+        order_value = {min = 5.00, max = 150.00}
+        items_count = {min = 1, max = 10}
+        avg_preparation_time_min = {min = 5, max = 60}
+        weather_conditions = ["Clear", "Rainy", "Cloudy", "Windy", "Thunderstorms"]
+        traffic_conditions = ["Low", "Medium", "High"]
+        regions = ["San Felipe", "Santa Ana", "Pueblo Nuevo", "Betania", "Bella Vista", "Calidonia", "San Francisco", "Parque Lefevre", "Curundu", "Rio Abajo", "El Chorrillo", "Pedregal", "Juan Diaz"]
+        areas = ["San Felipe", "Santa Ana", "Pueblo Nuevo", "Betania", "Bella Vista", "Calidonia", "San Francisco", "Parque Lefevre", "Curundu", "Rio Abajo", "El Chorrillo", "Pedregal", "Juan Diaz"]
+        cuisine_types = ["Vegan", "Bakery", "Panamanian", "Argentinian", "American", "Arab", "Brazilian", "Caribbean", "Colombian", "Cuban", "French", "Spanish", "Greek", "Peruvian", "Grilled", "Sea Food", "Kosher", "Thai", "Venezuelan", "Vietnamese", "Healthy", "Pizza", "Italian", "Chinese", "Mexican", "Indian", "Korean", "Japanse"]
+
+[model]
+    [model.input_data]
+        path = "model_pipeline/data/Food_Delivery_Times.csv"
+    [model.data_prep]
+        path = "model_pipeline/data/"
+        sacaler_type = { StandardScaler = "StandardScaler", RobustScaler = "RobustScaler" }
+        categorical_filler_nulls = "Unknown"
+    [model.save]
+        path = "model_pipeline/data/"
+    [model.features]
+        target = "Delivery_Time_min"
+        numerical = ["Distance_km", "Preparation_Time_min", "Courier_Experience_yrs"]
+        categorical = ["Weather", "Traffic_Level", "Time_of_Day", "Vehicle_Type"]
+        drop = "Order_ID"
+        engineered = [""]
+    [model.algo]
+        algo_list = ["LinearRegression", "Ridge", "Lasso", "kNN", "SVR", "MLPRegressor", "XGBoost", "CatBoost", "RandomForestRegressor", "KRR"]
+        best_model = "CatBoost"
+    [model.training]
+        train_ratio = 0.70
+        test_ratio = 0.15
+        val_ratio = 0.15
+        random_state = 10
+        optimization_metric = "neg_root_mean_squared_error"

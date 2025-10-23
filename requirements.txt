@@ -1,0 +1,14 @@
+uvicorn
+pydantic
+fastapi
+flask
+joblib
+catboost
+xgboost
+scikit-learn
+matplotlib
+pandas
+seaborn
+numpy
+tabulate
+faker==30.3.0
